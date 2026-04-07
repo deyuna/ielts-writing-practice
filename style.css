@@ -404,6 +404,9 @@ body {
   right: 1.75rem;
   text-align: right;
   pointer-events: none;
+  background: #FDFAFF;
+  padding: 0.5rem 0.85rem;
+  border-radius: 10px;
 }
 
 .footer-text {
