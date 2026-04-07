@@ -66,7 +66,7 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: rgba(45, 36, 36, 0.55);
+  color: rgba(45, 36, 36, 0.45);
   padding: 0.5rem 1.4rem;
   border-radius: 100px;
   transition: color 0.3s;
@@ -106,37 +106,25 @@ body {
 .hero-side {
   flex: 1;
   min-width: 0;
-  max-width: 420px;
+  max-width: 460px;
 }
 
 .eyebrow {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.22em;
-  color: rgba(45, 36, 36, 0.55);
+  color: rgba(45, 36, 36, 0.5);
   text-transform: uppercase;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .hero-title {
-  line-height: 1.05;
-  margin-bottom: 2.4rem;
-}
-
-.title-bold {
-  display: block;
-  font-size: 3.5rem;
+  font-size: 5rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
   color: #2d2424;
-  letter-spacing: -0.01em;
-}
-
-.title-light {
-  display: block;
-  font-size: 3.5rem;
-  font-weight: 300;
-  color: rgba(45, 36, 36, 0.55);
-  letter-spacing: -0.01em;
+  margin-bottom: 2.4rem;
 }
 
 .steps-list {
@@ -154,25 +142,24 @@ body {
 
 .step-num {
   flex-shrink: 0;
-  width: 1.75rem;
-  height: 1.75rem;
-  background: rgba(196, 122, 191, 0.2);
-  color: #b86cb3;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: rgba(196, 122, 191, 0.18);
+  color: #c47abf;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0;
-  margin-top: 0.05rem;
+  margin-top: 0.1rem;
 }
 
 .step-text {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 400;
-  color: rgba(45, 36, 36, 0.72);
-  line-height: 1.5;
+  color: rgba(45, 36, 36, 0.65);
+  line-height: 1.55;
 }
 
 /* ── Picker Side ───────────────────────────────── */
@@ -185,93 +172,152 @@ body {
 }
 
 .swipe-hint {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.08em;
-  color: rgba(45, 36, 36, 0.45);
+  color: rgba(45, 36, 36, 0.4);
   text-transform: lowercase;
-  padding-left: 0.25rem;
+  padding-left: 0.2rem;
 }
 
-/* ── Picker Wrap (scroll container) ───────────── */
-.picker-wrap {
-  width: 320px;
-  max-width: 100%;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  cursor: grab;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  border-radius: 24px;
-}
-
-.picker-wrap::-webkit-scrollbar {
-  display: none;
-}
-
-.picker-wrap.grabbing {
-  cursor: grabbing;
-}
-
-.picker-track {
+/* ── Card Stack ────────────────────────────────── */
+.card-stack {
   display: flex;
-  width: max-content;
+  flex-direction: column;
+  gap: 0.7rem;
+  width: 300px;
+  max-width: 100%;
 }
 
 /* ── Cards ─────────────────────────────────────── */
 .card {
-  flex: 0 0 320px;
-  max-width: 100%;
-  scroll-snap-align: center;
-  background: rgba(255, 255, 255, 0.55);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.22);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: 24px;
-  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 1.4rem 1.6rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  min-height: 220px;
+  gap: 0.35rem;
+  cursor: pointer;
+  /* transitions for bg/opacity/shadow only — transform handled by animation */
+  transition:
+    background 0.35s ease,
+    opacity 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
+.card.card-active {
+  background: rgba(255, 255, 255, 0.72);
+  opacity: 1;
+  box-shadow: 0 6px 24px rgba(196, 122, 191, 0.14);
+  border-color: rgba(255, 255, 255, 0.9);
+  cursor: default;
+}
+
+.card.card-inactive {
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+.card.card-inactive:hover {
+  opacity: 0.8;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Card content ──────────────────────────────── */
 .card-label {
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   color: rgba(45, 36, 36, 0.45);
   text-transform: uppercase;
-  margin-bottom: -0.25rem;
 }
 
 .card-number {
-  font-size: 2.5rem;
+  font-size: 2.4rem;
   font-weight: 700;
   color: #2d2424;
   line-height: 1;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.card.card-inactive .card-label,
+.card.card-inactive .card-number,
+.card.card-inactive .card-desc {
+  color: rgba(45, 36, 36, 0.45);
 }
 
 .card-desc {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 400;
   color: rgba(45, 36, 36, 0.7);
-  line-height: 1.55;
-  flex: 1;
+  line-height: 1.5;
+}
+
+.card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
 }
 
 .card-badge {
   display: inline-block;
-  background: rgba(196, 122, 191, 0.15);
+  background: rgba(196, 122, 191, 0.13);
   color: #c47abf;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   border-radius: 100px;
-  padding: 0.28rem 0.75rem;
-  align-self: flex-start;
-  margin-top: 0.25rem;
+  padding: 0.22rem 0.65rem;
+}
+
+.card.card-inactive .card-badge {
+  background: rgba(45, 36, 36, 0.07);
+  color: rgba(45, 36, 36, 0.35);
+}
+
+/* ── Card selection animation ──────────────────── */
+@keyframes card-pop {
+  0%   { transform: scale(1)    translateY(0);   }
+  30%  { transform: scale(1.04) translateY(-6px); }
+  62%  { transform: scale(0.985) translateY(1px); }
+  100% { transform: scale(1)    translateY(0);   }
+}
+
+/* Shimmer sweep — the "game card glow" */
+@keyframes card-shimmer {
+  0%   { transform: translateX(-120%) skewX(-18deg); opacity: 0;   }
+  25%  { opacity: 1; }
+  100% { transform: translateX(250%)  skewX(-18deg); opacity: 0;   }
+}
+
+.card.card-popping {
+  animation: card-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.card.card-popping::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* wide gradient band */
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  width: 60%;
+  left: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  animation: card-shimmer 0.5s ease-out forwards;
 }
 
 /* ── Dot Indicators ────────────────────────────── */
@@ -279,13 +325,13 @@ body {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  padding-left: 0.25rem;
+  padding-left: 0.2rem;
 }
 
 .dot {
   display: block;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: rgba(196, 122, 191, 0.3);
   transition: background 0.25s, width 0.25s, height 0.25s;
@@ -293,8 +339,8 @@ body {
 
 .dot.active {
   background: #c47abf;
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
 }
 
 /* ── Start Button ──────────────────────────────── */
@@ -304,22 +350,23 @@ body {
   border: none;
   border-radius: 100px;
   font-family: 'Josefin Sans', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.07em;
-  padding: 0.75rem 1.8rem;
+  padding: 0.8rem 1.8rem;
   cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
   white-space: nowrap;
 }
 
 .start-btn:hover {
-  opacity: 0.85;
-  transform: translateY(-1px);
+  opacity: 0.82;
+  transform: translateY(-2px);
 }
 
 .start-btn:active {
   transform: translateY(0);
+  opacity: 1;
 }
 
 /* ── Mobile ────────────────────────────────────── */
@@ -335,9 +382,8 @@ body {
     max-width: 100%;
   }
 
-  .title-bold,
-  .title-light {
-    font-size: 2.6rem;
+  .hero-title {
+    font-size: 3.5rem;
   }
 
   .picker-side {
@@ -345,13 +391,8 @@ body {
     align-items: flex-start;
   }
 
-  .picker-wrap {
+  .card-stack {
     width: 100%;
-    max-width: 360px;
-  }
-
-  .card {
-    flex: 0 0 calc(100vw - 2.5rem);
     max-width: 360px;
   }
 }

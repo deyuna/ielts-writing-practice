@@ -28,11 +28,8 @@
 
       <!-- Left Hero -->
       <div class="hero-side">
-        <p class="eyebrow">IELTS</p>
-        <h1 class="hero-title">
-          <span class="title-bold">Writing</span><br />
-          <span class="title-light">Practice</span>
-        </h1>
+        <p class="eyebrow">IELTS Academic Practice</p>
+        <h1 class="hero-title">Writing</h1>
         <ol class="steps-list">
           <li class="step-item">
             <span class="step-num">1</span>
@@ -40,7 +37,7 @@
           </li>
           <li class="step-item">
             <span class="step-num">2</span>
-            <span class="step-text">Read the prompt carefully and plan your response</span>
+            <span class="step-text">Get a random topic</span>
           </li>
           <li class="step-item">
             <span class="step-num">3</span>
@@ -53,24 +50,28 @@
       <div class="picker-side">
         <p class="swipe-hint">swipe to choose</p>
 
-        <div class="picker-wrap" id="picker-writing">
-          <div class="picker-track">
+        <div class="card-stack" id="stack-writing">
 
-            <div class="card" data-value="task1">
-              <p class="card-label">Task</p>
-              <p class="card-number">1</p>
-              <p class="card-desc">Describe a chart, graph, map, or diagram</p>
+          <div class="card card-active" data-value="task1">
+            <p class="card-label">Task</p>
+            <p class="card-number">1</p>
+            <p class="card-desc">Describe a chart, graph, map, or diagram</p>
+            <div class="card-badges">
               <span class="card-badge">&#8776; 20 min</span>
+              <span class="card-badge">150 words</span>
             </div>
-
-            <div class="card" data-value="task2">
-              <p class="card-label">Task</p>
-              <p class="card-number">2</p>
-              <p class="card-desc">Write a discursive or argumentative essay</p>
-              <span class="card-badge">&#8776; 40 min</span>
-            </div>
-
           </div>
+
+          <div class="card card-inactive" data-value="task2">
+            <p class="card-label">Task</p>
+            <p class="card-number">2</p>
+            <p class="card-desc">Describe a topic with relevant issues.</p>
+            <div class="card-badges">
+              <span class="card-badge">&#8776; 40 min</span>
+              <span class="card-badge">250 words</span>
+            </div>
+          </div>
+
         </div>
 
         <div class="dot-row" id="dots-writing">
@@ -78,7 +79,7 @@
           <span class="dot"></span>
         </div>
 
-        <button class="start-btn" data-picker="picker-writing">Start Practice &#8594;</button>
+        <button class="start-btn" data-section="writing">Select Task &#8594;</button>
       </div>
 
     </div>
@@ -90,11 +91,8 @@
 
       <!-- Left Hero -->
       <div class="hero-side">
-        <p class="eyebrow">IELTS</p>
-        <h1 class="hero-title">
-          <span class="title-bold">Speaking</span><br />
-          <span class="title-light">Practice</span>
-        </h1>
+        <p class="eyebrow">IELTS Academic Practice</p>
+        <h1 class="hero-title">Speaking</h1>
         <ol class="steps-list">
           <li class="step-item">
             <span class="step-num">1</span>
@@ -102,11 +100,11 @@
           </li>
           <li class="step-item">
             <span class="step-num">2</span>
-            <span class="step-text">Listen to the prompt and prepare your answer</span>
+            <span class="step-text">Get a random topic</span>
           </li>
           <li class="step-item">
             <span class="step-num">3</span>
-            <span class="step-text">Speak clearly and practise within the time limit</span>
+            <span class="step-text">Practice your speaking!</span>
           </li>
         </ol>
       </div>
@@ -115,31 +113,35 @@
       <div class="picker-side">
         <p class="swipe-hint">swipe to choose</p>
 
-        <div class="picker-wrap" id="picker-speaking">
-          <div class="picker-track">
+        <div class="card-stack" id="stack-speaking">
 
-            <div class="card" data-value="part1">
-              <p class="card-label">Part</p>
-              <p class="card-number">1</p>
-              <p class="card-desc">Answer questions about yourself &amp; familiar topics</p>
-              <span class="card-badge">4&#8211;5 min</span>
+          <div class="card card-active" data-value="part1">
+            <p class="card-label">Part</p>
+            <p class="card-number">1</p>
+            <p class="card-desc">Introduce and interview</p>
+            <div class="card-badges">
+              <span class="card-badge">&#8776; 4 &#8211; 5 minutes</span>
             </div>
-
-            <div class="card" data-value="part2">
-              <p class="card-label">Part</p>
-              <p class="card-number">2</p>
-              <p class="card-desc">Two-minute talk from a cue card</p>
-              <span class="card-badge">3&#8211;4 min</span>
-            </div>
-
-            <div class="card" data-value="part3">
-              <p class="card-label">Part</p>
-              <p class="card-number">3</p>
-              <p class="card-desc">In-depth discussion on abstract ideas</p>
-              <span class="card-badge">4&#8211;5 min</span>
-            </div>
-
           </div>
+
+          <div class="card card-inactive" data-value="part2">
+            <p class="card-label">Part</p>
+            <p class="card-number">2</p>
+            <p class="card-desc">Long turn</p>
+            <div class="card-badges">
+              <span class="card-badge">&#8776; 3 &#8211; 4 minutes</span>
+            </div>
+          </div>
+
+          <div class="card card-inactive" data-value="part3">
+            <p class="card-label">Part</p>
+            <p class="card-number">3</p>
+            <p class="card-desc">Discussion</p>
+            <div class="card-badges">
+              <span class="card-badge">&#8776; 4 &#8211; 5 mins</span>
+            </div>
+          </div>
+
         </div>
 
         <div class="dot-row" id="dots-speaking">
@@ -148,7 +150,7 @@
           <span class="dot"></span>
         </div>
 
-        <button class="start-btn" data-picker="picker-speaking">Start Practice &#8594;</button>
+        <button class="start-btn" data-section="speaking">Select Task &#8594;</button>
       </div>
 
     </div>
