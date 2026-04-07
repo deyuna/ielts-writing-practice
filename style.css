@@ -10,12 +10,68 @@ html, body {
 
 body {
   min-height: 100vh;
-  background: radial-gradient(ellipse at 60% 40%, #f5b8e8 0%, #e8c8f5 40%, #ddd5f5 100%);
-  font-family: 'Georgia', serif;
+  background: radial-gradient(ellipse at 62% 38%, #f0aadf 0%, #e8c8f5 45%, #dbd5f5 100%);
+  font-family: 'Josefin Sans', sans-serif;
 }
 
-.container {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 2rem;
+/* ── Home page ─────────────────────────────────── */
+
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.home__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.home__title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #1a1a1a;
+  margin-bottom: 1.25rem;
+}
+
+.home__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.home__link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: opacity 0.2s, letter-spacing 0.2s;
+  cursor: pointer;
+}
+
+.home__link--active {
+  color: #1a1a1a;
+}
+
+.home__link--muted {
+  color: #a09aaa;
+}
+
+.home__arrow {
+  font-size: 1.6rem;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.home__link:hover {
+  opacity: 0.7;
+  letter-spacing: 0.1em;
 }
