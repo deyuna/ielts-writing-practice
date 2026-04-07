@@ -405,26 +405,31 @@ body {
 /* ── Footer ────────────────────────────────────── */
 .site-footer {
   position: fixed;
-  bottom: 1.25rem;
-  right: 1.75rem;
-  text-align: right;
-  pointer-events: none;
-  background: #FDFAFF;
-  padding: 0.5rem 0.85rem;
-  border-radius: 10px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(253, 250, 255, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-.footer-text {
+.footer-left,
+.footer-right {
   font-family: 'Josefin Sans', sans-serif;
   font-size: 0.72rem;
   font-weight: 300;
   letter-spacing: 0.04em;
   color: rgba(45, 36, 36, 0.42);
-  line-height: 1.65;
+  line-height: 1.5;
 }
 
 .footer-link {
-  pointer-events: all;
   color: rgba(45, 36, 36, 0.55);
   text-decoration: underline;
   text-underline-offset: 2px;
