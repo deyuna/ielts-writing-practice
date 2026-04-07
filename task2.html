@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task 2 — IELTS Writing Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="practice-nav">
+    <a href="index.html" class="back-btn">&#8592; Back</a>
+    <span class="practice-nav__title">Writing &middot; Task 2</span>
+  </header>
+
+  <main class="practice-main">
+    <div class="practice-layout">
+
+      <!-- Question -->
+      <div class="question-side">
+        <div>
+          <span class="question-eyebrow">IELTS Academic Practice</span>
+          <span class="question-type-badge" id="q-type">Opinion Essay</span>
+        </div>
+        <div class="question-card" id="question-card">
+          <p class="question-prompt" id="q-prompt">Loading&hellip;</p>
+          <hr class="question-divider" />
+          <p class="question-task-line">
+            Give reasons for your answer and include any relevant examples
+            from your own knowledge or experience.<br />
+            <strong>Write at least 250 words.</strong>
+          </p>
+        </div>
+        <button class="btn-new" id="btn-new">&#127922;&ensp;New Question</button>
+      </div>
+
+      <!-- Timer -->
+      <div class="timer-side">
+        <div class="timer-container">
+          <svg class="timer-svg" viewBox="0 0 188 188">
+            <circle class="timer-track" cx="94" cy="94" r="80" />
+            <circle class="timer-ring" id="timer-ring" cx="94" cy="94" r="80" />
+          </svg>
+          <div class="timer-center">
+            <div class="timer-display" id="timer-display">40:00</div>
+            <div class="timer-sub">remaining</div>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button class="timer-btn timer-btn--start" id="btn-start">&#9654; Start</button>
+          <button class="timer-btn timer-btn--reset" id="btn-reset">&#8635; Reset</button>
+        </div>
+        <p class="timer-info">Recommended: <strong>40 minutes</strong><br />Word target: 250+</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-text">
+      Made with Figma, Claude and a cup of coffee &#9749;<br>
+      by <a class="footer-link" href="https://www.linkedin.com/in/deyuna-arham-rusmiland/" target="_blank" rel="noopener noreferrer">Deyuna</a>
+    </p>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Question bank ─────────────────────────── */
+    const questions = [
+      {
+        type: 'Discussion Essay',
+        prompt: 'International tourism has brought enormous benefit to many places. At the same time, there is concern about its impact on local inhabitants and the environment. Do you think the disadvantages of international tourism outweigh the advantages?'
+      },
+      {
+        type: 'Discussion Essay',
+        prompt: 'To be successful in sport, some people believe it is essential to have a good coach. Others say that an athlete\'s natural ability is more important. Discuss both views and give your own opinion.'
+      },
+      {
+        type: 'Opinion Essay',
+        prompt: 'The best way to reduce crime is to give longer prison sentences. To what extent do you agree or disagree with this statement?'
+      },
+      {
+        type: 'Discussion Essay',
+        prompt: 'Some people think that violent films and video games have negative effects on people, especially the young, and should be banned. Others think that they are harmless entertainment. Discuss both sides of this argument and give your own opinion.'
+      },
+      {
+        type: 'Opinion Essay',
+        prompt: 'The media should include more stories that report good news. To what extent do you agree or disagree?'
+      },
+      {
+        type: 'Discussion Essay',
+        prompt: 'Some people think that governments should provide financial support for creative artists such as painters and musicians. Others believe that artists should be funded by other means. Discuss both views and give your own opinion.'
+      },
+      {
+        type: 'Problem & Solution',
+        prompt: 'In many cities, traffic congestion is becoming an increasingly serious problem. What do you think are the main causes of this problem? What measures could be taken to reduce it?'
+      },
+      {
+        type: 'Advantages & Disadvantages',
+        prompt: 'Today, more and more people are choosing to live and work abroad. What are the advantages and disadvantages of this trend for both the individuals involved and for society as a whole?'
+      },
+      {
+        type: 'Opinion Essay',
+        prompt: 'Nowadays, consumers are less influenced by advertising than in the past. What are the reasons for this? Is this a positive or negative development?'
+      },
+      {
+        type: 'Discussion Essay',
+        prompt: 'Some people believe that children should be given a lot of free time to play. Others think that children\'s time should be structured and organised by adults. Discuss both views and give your own opinion.'
+      },
+      {
+        type: 'Opinion Essay',
+        prompt: 'Technology is increasingly being used in education. Some think this is a positive development, but others believe that it is having a negative effect on the quality of education. To what extent do you agree or disagree?'
+      },
+      {
+        type: 'Discussion Essay',
+        prompt: 'Some people say that it is better to work for a large company, while others say that it is better to work for a small company. Discuss both views and give your own opinion.'
+      },
+      {
+        type: 'Advantages & Disadvantages',
+        prompt: 'More and more people are choosing to work from home rather than commute to an office. What are the advantages and disadvantages of working from home?'
+      },
+      {
+        type: 'Opinion Essay',
+        prompt: 'Some people think that everyone should be vegetarian, because we do not need to eat meat to have a healthy diet. To what extent do you agree or disagree?'
+      },
+      {
+        type: 'Problem & Solution',
+        prompt: 'Many countries are experiencing serious environmental pollution. Some people argue that these problems can only be solved through international cooperation. To what extent do you agree or disagree?'
+      },
+      {
+        type: 'Discussion Essay',
+        prompt: 'Some people think that rich countries should help poorer countries by sending money and expertise. Others think that other forms of help would be more effective. Discuss both views and give your own opinion.'
+      },
+      {
+        type: 'Opinion Essay',
+        prompt: 'In the modern world, it is no longer necessary to use animals for food, clothing, or medicine. To what extent do you agree or disagree?'
+      },
+      {
+        type: 'Direct Question',
+        prompt: 'Why do you think many people move from rural areas to cities? What problems can this create for both the city and the countryside?'
+      },
+      {
+        type: 'Opinion Essay',
+        prompt: 'In some countries, people are no longer able to follow traditional ways of life. Is this a negative or positive development?'
+      },
+      {
+        type: 'Discussion Essay',
+        prompt: 'Some people think that young people should be required to do unpaid work helping the community. Others think this should be their own choice. Discuss both views and give your own opinion.'
+      },
+      {
+        type: 'Opinion Essay',
+        prompt: 'Some people think that the increasing use of computers and mobile phones for communication has had a negative effect on young people\'s reading and writing skills. To what extent do you agree or disagree?'
+      },
+      {
+        type: 'Advantages & Disadvantages',
+        prompt: 'Some countries have introduced laws to limit working hours for employees. What are the advantages and disadvantages of working shorter hours?'
+      }
+    ];
+
+    /* ── State ─────────────────────────────────── */
+    let currentIdx = -1;
+
+    /* ── DOM refs ──────────────────────────────── */
+    const qType    = document.getElementById('q-type');
+    const qPrompt  = document.getElementById('q-prompt');
+    const qCard    = document.getElementById('question-card');
+    const btnNew   = document.getElementById('btn-new');
+    const btnStart = document.getElementById('btn-start');
+    const btnReset = document.getElementById('btn-reset');
+    const display  = document.getElementById('timer-display');
+    const ring     = document.getElementById('timer-ring');
+
+    /* ── Timer ─────────────────────────────────── */
+    const TOTAL = 40 * 60;
+    const R = 80;
+    const CIRC = 2 * Math.PI * R;
+    ring.style.strokeDasharray = CIRC;
+    ring.style.strokeDashoffset = 0;
+
+    let remaining = TOTAL;
+    let running   = false;
+    let interval  = null;
+
+    function fmt(sec) {
+      return String(Math.floor(sec / 60)).padStart(2, '0') + ':' +
+             String(sec % 60).padStart(2, '0');
+    }
+
+    function renderTimer() {
+      display.textContent = fmt(remaining);
+      ring.style.strokeDashoffset = CIRC * (1 - remaining / TOTAL);
+
+      if (remaining <= 5 * 60 && remaining > 0) {
+        ring.classList.add('warning');
+        ring.classList.remove('done');
+      } else if (remaining === 0) {
+        ring.classList.add('done');
+        ring.classList.remove('warning');
+      } else {
+        ring.classList.remove('warning', 'done');
+      }
+    }
+
+    function startTimer() {
+      if (running || remaining === 0) return;
+      running = true;
+      btnStart.textContent = '⏸ Pause';
+      interval = setInterval(function () {
+        remaining--;
+        renderTimer();
+        if (remaining <= 0) {
+          clearInterval(interval);
+          running = false;
+          btnStart.textContent = '▶ Start';
+          display.textContent = "Time's up!";
+          display.classList.add('timer-timesup');
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(interval);
+      running = false;
+      btnStart.textContent = '▶ Start';
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      remaining = TOTAL;
+      display.classList.remove('timer-timesup');
+      renderTimer();
+    }
+
+    btnStart.addEventListener('click', function () {
+      running ? pauseTimer() : startTimer();
+    });
+    btnReset.addEventListener('click', resetTimer);
+
+    /* ── Question randomiser ───────────────────── */
+    function pickQuestion() {
+      let idx;
+      do { idx = Math.floor(Math.random() * questions.length); }
+      while (idx === currentIdx && questions.length > 1);
+      currentIdx = idx;
+      return questions[idx];
+    }
+
+    function showQuestion(q) {
+      qCard.classList.add('fading');
+      setTimeout(function () {
+        qType.textContent   = q.type;
+        qPrompt.textContent = q.prompt;
+        qCard.classList.remove('fading');
+      }, 200);
+    }
+
+    btnNew.addEventListener('click', function () {
+      showQuestion(pickQuestion());
+    });
+
+    /* ── Init ──────────────────────────────────── */
+    showQuestion(pickQuestion());
+    renderTimer();
+
+  })();
+  </script>
+</body>
+</html>

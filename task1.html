@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task 1 — IELTS Writing Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="practice-nav">
+    <a href="index.html" class="back-btn">&#8592; Back</a>
+    <span class="practice-nav__title">Writing &middot; Task 1</span>
+  </header>
+
+  <main class="practice-main">
+    <div class="practice-layout">
+
+      <!-- Question -->
+      <div class="question-side">
+        <div>
+          <span class="question-eyebrow">IELTS Academic Practice</span>
+          <span class="question-type-badge" id="q-type">Bar Chart</span>
+        </div>
+        <div class="question-card" id="question-card">
+          <p class="question-prompt" id="q-prompt">Loading&hellip;</p>
+          <hr class="question-divider" />
+          <p class="question-task-line">
+            Summarise the information by selecting and reporting the main features,
+            and make comparisons where relevant.<br />
+            <strong>Write at least 150 words.</strong>
+          </p>
+        </div>
+        <button class="btn-new" id="btn-new">&#127922;&ensp;New Question</button>
+      </div>
+
+      <!-- Timer -->
+      <div class="timer-side">
+        <div class="timer-container">
+          <svg class="timer-svg" viewBox="0 0 188 188">
+            <circle class="timer-track" cx="94" cy="94" r="80" />
+            <circle class="timer-ring" id="timer-ring" cx="94" cy="94" r="80" />
+          </svg>
+          <div class="timer-center">
+            <div class="timer-display" id="timer-display">20:00</div>
+            <div class="timer-sub">remaining</div>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button class="timer-btn timer-btn--start" id="btn-start">&#9654; Start</button>
+          <button class="timer-btn timer-btn--reset" id="btn-reset">&#8635; Reset</button>
+        </div>
+        <p class="timer-info">Recommended: <strong>20 minutes</strong><br />Word target: 150+</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-text">
+      Made with Figma, Claude and a cup of coffee &#9749;<br>
+      by <a class="footer-link" href="https://www.linkedin.com/in/deyuna-arham-rusmiland/" target="_blank" rel="noopener noreferrer">Deyuna</a>
+    </p>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Question bank ─────────────────────────── */
+    const questions = [
+      {
+        type: 'Bar Chart',
+        prompt: 'The bar chart below shows the number of men and women enrolled in further education in Britain in three different periods — 1970/71, 1980/81, and 1990/91 — and whether they were studying full-time or part-time.'
+      },
+      {
+        type: 'Line Graph',
+        prompt: 'The graph below shows radio and television audiences as a percentage of the adult UK population throughout the day in October and November 2012.'
+      },
+      {
+        type: 'Pie Charts',
+        prompt: 'The three pie charts below show the main reasons why agricultural land becomes degraded in three different regions of the world: North America, Europe, and Oceania.'
+      },
+      {
+        type: 'Map',
+        prompt: 'The maps below show the centre of a small town called Islip as it is now, and plans for its future development.'
+      },
+      {
+        type: 'Process Diagram',
+        prompt: 'The diagram below shows the process by which bricks are manufactured for the building industry.'
+      },
+      {
+        type: 'Line Graph',
+        prompt: 'The graph below gives information from a 2008 report about consumption of energy in the USA since 1980, with projections until 2030.'
+      },
+      {
+        type: 'Bar Chart',
+        prompt: 'The chart below shows the results of a survey about people\'s coffee and tea buying and drinking habits in five Australian cities.'
+      },
+      {
+        type: 'Table',
+        prompt: 'The table below shows the proportion of different categories of families living in poverty in Australia in 1999.'
+      },
+      {
+        type: 'Two Maps',
+        prompt: 'The two maps below show an island before and after the construction of some tourist facilities.'
+      },
+      {
+        type: 'Line Graph',
+        prompt: 'The graph below shows the consumption of three types of spreads — margarine, low-fat spreads, and butter — in a European country from 1981 to 2007.'
+      },
+      {
+        type: 'Bar Chart',
+        prompt: 'The chart below shows the percentage of households in owned and rented accommodation in England and Wales between 1918 and 2011.'
+      },
+      {
+        type: 'Process Diagram',
+        prompt: 'The diagram below shows how a central heating system in a house works, from the boiler to the individual radiators.'
+      },
+      {
+        type: 'Line Graph',
+        prompt: 'The graph below shows average carbon dioxide (CO₂) emissions per person per year in the UK, Sweden, Italy, and Portugal between 1967 and 2007.'
+      },
+      {
+        type: 'Bar Chart',
+        prompt: 'The bar chart below shows the number of tourists visiting a particular Caribbean island between 2010 and 2017.'
+      },
+      {
+        type: 'Mixed Chart',
+        prompt: 'The bar chart and pie chart below give information about the world\'s top five coffee-producing countries: their output in thousands of tonnes and their share of global production.'
+      },
+      {
+        type: 'Process Diagram',
+        prompt: 'The diagram below illustrates the process of how rainwater is collected and purified for domestic drinking water use in an Australian town.'
+      },
+      {
+        type: 'Table',
+        prompt: 'The table below compares the features of three different types of accommodation available for students at a UK university: halls of residence, private rented rooms, and homestays.'
+      },
+      {
+        type: 'Bar Chart',
+        prompt: 'The chart below shows the percentage of people in different age groups who used the internet every day in a European country in 2015 and 2020.'
+      }
+    ];
+
+    /* ── State ─────────────────────────────────── */
+    let currentIdx = -1;
+
+    /* ── DOM refs ──────────────────────────────── */
+    const qType    = document.getElementById('q-type');
+    const qPrompt  = document.getElementById('q-prompt');
+    const qCard    = document.getElementById('question-card');
+    const btnNew   = document.getElementById('btn-new');
+    const btnStart = document.getElementById('btn-start');
+    const btnReset = document.getElementById('btn-reset');
+    const display  = document.getElementById('timer-display');
+    const ring     = document.getElementById('timer-ring');
+
+    /* ── Timer ─────────────────────────────────── */
+    const TOTAL = 20 * 60;
+    const R = 80;
+    const CIRC = 2 * Math.PI * R;
+    ring.style.strokeDasharray = CIRC;
+    ring.style.strokeDashoffset = 0;
+
+    let remaining = TOTAL;
+    let running   = false;
+    let interval  = null;
+
+    function fmt(sec) {
+      return String(Math.floor(sec / 60)).padStart(2, '0') + ':' +
+             String(sec % 60).padStart(2, '0');
+    }
+
+    function renderTimer() {
+      display.textContent = fmt(remaining);
+      ring.style.strokeDashoffset = CIRC * (1 - remaining / TOTAL);
+
+      if (remaining <= 5 * 60 && remaining > 0) {
+        ring.classList.add('warning');
+        ring.classList.remove('done');
+      } else if (remaining === 0) {
+        ring.classList.add('done');
+        ring.classList.remove('warning');
+      } else {
+        ring.classList.remove('warning', 'done');
+      }
+    }
+
+    function startTimer() {
+      if (running || remaining === 0) return;
+      running = true;
+      btnStart.textContent = '⏸ Pause';
+      interval = setInterval(function () {
+        remaining--;
+        renderTimer();
+        if (remaining <= 0) {
+          clearInterval(interval);
+          running = false;
+          btnStart.textContent = '▶ Start';
+          display.textContent = "Time's up!";
+          display.classList.add('timer-timesup');
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(interval);
+      running = false;
+      btnStart.textContent = '▶ Start';
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      remaining = TOTAL;
+      display.classList.remove('timer-timesup');
+      renderTimer();
+    }
+
+    btnStart.addEventListener('click', function () {
+      running ? pauseTimer() : startTimer();
+    });
+    btnReset.addEventListener('click', resetTimer);
+
+    /* ── Question randomiser ───────────────────── */
+    function pickQuestion() {
+      let idx;
+      do { idx = Math.floor(Math.random() * questions.length); }
+      while (idx === currentIdx && questions.length > 1);
+      currentIdx = idx;
+      return questions[idx];
+    }
+
+    function showQuestion(q) {
+      qCard.classList.add('fading');
+      setTimeout(function () {
+        qType.textContent   = q.type;
+        qPrompt.textContent = q.prompt;
+        qCard.classList.remove('fading');
+      }, 200);
+    }
+
+    btnNew.addEventListener('click', function () {
+      showQuestion(pickQuestion());
+    });
+
+    /* ── Init ──────────────────────────────────── */
+    showQuestion(pickQuestion());
+    renderTimer();
+
+  })();
+  </script>
+</body>
+</html>
