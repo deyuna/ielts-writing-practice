@@ -3,27 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IELTS Writing Practice</title>
+  <title>IELTS Practice</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="home">
-    <div class="home__content">
-      <h1 class="home__title">IELTS Writing Practice</h1>
-      <nav class="home__nav">
-        <a href="task1.html" class="home__link home__link--active">
-          <span>Task 1</span>
-          <span class="home__arrow">›</span>
-        </a>
-        <a href="task2.html" class="home__link home__link--muted">
-          <span>Task 2</span>
-          <span class="home__arrow">›</span>
-        </a>
-      </nav>
+
+  <!-- Fixed Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-pill-track">
+        <div class="nav-slider"></div>
+        <button class="nav-btn active" data-mode="writing">Writing</button>
+        <button class="nav-btn" data-mode="speaking">Speaking</button>
+      </div>
     </div>
-  </main>
+  </nav>
+
+  <!-- Writing Section -->
+  <section class="mode-section" id="section-writing">
+    <div class="mode-layout">
+
+      <!-- Left Hero -->
+      <div class="hero-side">
+        <p class="eyebrow">IELTS</p>
+        <h1 class="hero-title">
+          <span class="title-bold">Writing</span><br />
+          <span class="title-light">Practice</span>
+        </h1>
+        <ol class="steps-list">
+          <li class="step-item">
+            <span class="step-num">1</span>
+            <span class="step-text">Choose a task type from the picker</span>
+          </li>
+          <li class="step-item">
+            <span class="step-num">2</span>
+            <span class="step-text">Read the prompt carefully and plan your response</span>
+          </li>
+          <li class="step-item">
+            <span class="step-num">3</span>
+            <span class="step-text">Write within the recommended time and review your answer</span>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Right Picker -->
+      <div class="picker-side">
+        <p class="swipe-hint">swipe to choose</p>
+
+        <div class="picker-wrap" id="picker-writing">
+          <div class="picker-track">
+
+            <div class="card" data-value="task1">
+              <p class="card-label">Task</p>
+              <p class="card-number">1</p>
+              <p class="card-desc">Describe a chart, graph, map, or diagram</p>
+              <span class="card-badge">&#8776; 20 min</span>
+            </div>
+
+            <div class="card" data-value="task2">
+              <p class="card-label">Task</p>
+              <p class="card-number">2</p>
+              <p class="card-desc">Write a discursive or argumentative essay</p>
+              <span class="card-badge">&#8776; 40 min</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="dot-row" id="dots-writing">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+        </div>
+
+        <button class="start-btn" data-picker="picker-writing">Start Practice &#8594;</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Speaking Section -->
+  <section class="mode-section hidden" id="section-speaking">
+    <div class="mode-layout">
+
+      <!-- Left Hero -->
+      <div class="hero-side">
+        <p class="eyebrow">IELTS</p>
+        <h1 class="hero-title">
+          <span class="title-bold">Speaking</span><br />
+          <span class="title-light">Practice</span>
+        </h1>
+        <ol class="steps-list">
+          <li class="step-item">
+            <span class="step-num">1</span>
+            <span class="step-text">Choose a part from the picker</span>
+          </li>
+          <li class="step-item">
+            <span class="step-num">2</span>
+            <span class="step-text">Listen to the prompt and prepare your answer</span>
+          </li>
+          <li class="step-item">
+            <span class="step-num">3</span>
+            <span class="step-text">Speak clearly and practise within the time limit</span>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Right Picker -->
+      <div class="picker-side">
+        <p class="swipe-hint">swipe to choose</p>
+
+        <div class="picker-wrap" id="picker-speaking">
+          <div class="picker-track">
+
+            <div class="card" data-value="part1">
+              <p class="card-label">Part</p>
+              <p class="card-number">1</p>
+              <p class="card-desc">Answer questions about yourself &amp; familiar topics</p>
+              <span class="card-badge">4&#8211;5 min</span>
+            </div>
+
+            <div class="card" data-value="part2">
+              <p class="card-label">Part</p>
+              <p class="card-number">2</p>
+              <p class="card-desc">Two-minute talk from a cue card</p>
+              <span class="card-badge">3&#8211;4 min</span>
+            </div>
+
+            <div class="card" data-value="part3">
+              <p class="card-label">Part</p>
+              <p class="card-number">3</p>
+              <p class="card-desc">In-depth discussion on abstract ideas</p>
+              <span class="card-badge">4&#8211;5 min</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="dot-row" id="dots-speaking">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+
+        <button class="start-btn" data-picker="picker-speaking">Start Practice &#8594;</button>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="app.js"></script>
 </body>
 </html>
