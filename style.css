@@ -95,9 +95,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5rem;
+  gap: 3rem;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -106,8 +106,7 @@ body {
 .hero-side {
   flex: 1;
   min-width: 0;
-  max-width: 460px;
-  overflow: hidden;
+  max-width: 580px;
 }
 
 .eyebrow {
