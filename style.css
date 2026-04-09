@@ -120,7 +120,7 @@ body {
 
 .hero-title {
   font-family: 'Pacifico', cursive;
-  font-size: 5rem;
+  font-size: 8rem;
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1;
@@ -129,7 +129,7 @@ body {
     0 -1px 0 rgba(255, 255, 255, 0.3),
     2px 4px 0 rgba(80, 50, 50, 0.1),
     0 6px 14px rgba(80, 50, 50, 0.1);
-  margin-bottom: 2.4rem;
+  margin-bottom: 2rem;
 }
 
 .steps-list {
@@ -350,7 +350,7 @@ body {
 
 /* ── Start Button ──────────────────────────────── */
 .start-btn {
-  background: #2d2424;
+  background: #736868;
   color: #fff;
   border: none;
   border-radius: 100px;
@@ -362,6 +362,7 @@ body {
   cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
   white-space: nowrap;
+  margin-top: 16px;
 }
 
 .start-btn:hover {
