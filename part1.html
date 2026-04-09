@@ -222,6 +222,30 @@
 
     let remaining = TOTAL, running = false, interval = null;
 
+
+    function playBell() {
+      try {
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        function ring(startTime) {
+          [[880, 0.45], [1320, 0.25], [1760, 0.12], [2640, 0.06]].forEach(function(h) {
+            var osc = ctx.createOscillator();
+            var gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.frequency.value = h[0];
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(h[1], startTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, startTime + 1.4);
+            osc.start(startTime);
+            osc.stop(startTime + 1.5);
+          });
+        }
+        ring(ctx.currentTime);
+        ring(ctx.currentTime + 1.1);
+        ring(ctx.currentTime + 2.2);
+      } catch(e) {}
+    }
+
     function fmt(s) {
       return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
     }
@@ -245,6 +269,7 @@
         if (remaining <= 0) {
           clearInterval(interval); running = false;
           btnStart.textContent = '▶ Start';
+          playBell();
           display.textContent = "Time's up!";
           display.classList.add('timer-timesup');
         }
