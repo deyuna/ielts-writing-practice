@@ -506,7 +506,7 @@ body {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0;
 }
 
 .question-eyebrow {
@@ -530,10 +530,11 @@ body {
   text-transform: uppercase;
   border-radius: 100px;
   padding: 0.28rem 0.8rem;
-  margin-bottom: 1.1rem;
+  margin-bottom: 0;
 }
 
 .question-card {
+  margin-top: 8px;
   background: rgba(255,255,255,0.62);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -578,6 +579,7 @@ body {
 
 /* New question button */
 .btn-new {
+  margin-top: 32px;
   align-self: flex-start;
   background: rgba(255,255,255,0.6);
   border: 1.5px solid rgba(255,255,255,0.8);
@@ -687,7 +689,7 @@ body {
 .timer-btn:active { transform: translateY(0); }
 
 .timer-btn--start {
-  background: #2d2424;
+  background: #736868;
   color: #fff;
 }
 
