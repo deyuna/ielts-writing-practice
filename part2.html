@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Part 2 — IELTS Speaking Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="practice-nav">
+    <a href="index.html" class="back-btn">&#8592; Back</a>
+    <span class="practice-nav__title">Speaking &middot; Part 2</span>
+  </header>
+
+  <main class="practice-main">
+    <div class="practice-layout">
+
+      <div class="question-side">
+        <div>
+          <span class="question-eyebrow">IELTS Speaking Practice</span>
+          <span class="question-type-badge" id="q-type">Long Turn</span>
+        </div>
+        <div class="question-card" id="question-card">
+          <div id="q-prompt"></div>
+          <hr class="question-divider" />
+          <p class="question-task-line">
+            You have <strong>1 minute to prepare</strong>, then speak for <strong>1&ndash;2 minutes</strong>.<br />
+            The examiner will ask 1&ndash;2 follow-up questions after.
+          </p>
+        </div>
+        <button class="btn-new" id="btn-new">&#127922;&ensp;New Card</button>
+      </div>
+
+      <div class="timer-side">
+        <div class="timer-container">
+          <svg class="timer-svg" viewBox="0 0 188 188">
+            <circle class="timer-track" cx="94" cy="94" r="80" />
+            <circle class="timer-ring" id="timer-ring" cx="94" cy="94" r="80" />
+          </svg>
+          <div class="timer-center">
+            <div class="timer-display" id="timer-display">01:00</div>
+            <div class="timer-sub" id="timer-sub">prep time</div>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button class="timer-btn timer-btn--start" id="btn-start">&#9654; Start Prep</button>
+          <button class="timer-btn timer-btn--reset" id="btn-reset">&#8635; Reset</button>
+        </div>
+        <p class="timer-info" id="timer-info">Step 1: <strong>1 min prep</strong><br />Step 2: <strong>2 min speaking</strong></p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-left">Powered by <a class="footer-link" href="https://ielts.org" target="_blank" rel="noopener noreferrer">ielts.org</a></span>
+    <span class="footer-right">Made with Figma, Claude, and a cup of coffee &#9749; by <a class="footer-link" href="https://www.linkedin.com/in/deyuna-arham-rusmiland/" target="_blank" rel="noopener noreferrer">Deyuna</a></span>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    const cards = [
+      {
+        prompt: 'Describe a person who has had a positive influence on you.',
+        bullets: ['who this person is', 'how you know them', 'what this person does or has done', 'and explain how they have influenced you']
+      },
+      {
+        prompt: 'Describe a place you have visited that you particularly enjoyed.',
+        bullets: ['where this place is', 'when you went there', 'what you did there', 'and explain why you enjoyed it so much']
+      },
+      {
+        prompt: 'Describe a memorable event from your childhood.',
+        bullets: ['what the event was', 'when and where it took place', 'who was there with you', 'and explain why this event is memorable for you']
+      },
+      {
+        prompt: 'Describe a skill you would like to learn.',
+        bullets: ['what the skill is', 'why you would like to learn it', 'how you would learn it', 'and explain how this skill would benefit you']
+      },
+      {
+        prompt: 'Describe a book or film that made a strong impression on you.',
+        bullets: ['what it is about', 'when you read or watched it', 'why you chose it', 'and explain what impression it made on you']
+      },
+      {
+        prompt: 'Describe a time when you helped someone.',
+        bullets: ['who you helped', 'when this happened', 'how you helped them', 'and explain how you felt about helping them']
+      },
+      {
+        prompt: 'Describe a traditional food from your country.',
+        bullets: ['what this food is', 'how it is made', 'when people eat it', 'and explain why this food is important to your culture']
+      },
+      {
+        prompt: 'Describe a teacher who made a lasting impression on you.',
+        bullets: ['who this teacher was', 'what subject they taught', 'what made them different from other teachers', 'and explain what you learned from them']
+      },
+      {
+        prompt: 'Describe a piece of technology you find particularly useful.',
+        bullets: ['what the technology is', 'how often you use it', 'what you use it for', 'and explain why you find it so useful']
+      },
+      {
+        prompt: 'Describe a journey you have been on that you found memorable.',
+        bullets: ['where you went', 'how you travelled', 'who you were with', 'and explain what made this journey memorable']
+      },
+      {
+        prompt: 'Describe an achievement you are proud of.',
+        bullets: ['what the achievement was', 'when you achieved it', 'what challenges you faced', 'and explain why you are proud of this achievement']
+      },
+      {
+        prompt: 'Describe a sport or physical activity you enjoy.',
+        bullets: ['what the sport or activity is', 'when you started doing it', 'how often you do it', 'and explain why you enjoy it']
+      },
+      {
+        prompt: 'Describe a time you received helpful advice.',
+        bullets: ['who gave you the advice', 'what the advice was', 'why you needed it at the time', 'and explain how the advice helped you']
+      },
+      {
+        prompt: 'Describe a city or town you would like to live in.',
+        bullets: ['where this city or town is', 'what it is like', 'why you would like to live there', 'and explain what you would do there']
+      },
+      {
+        prompt: 'Describe something you own that is very important to you.',
+        bullets: ['what the object is', 'how long you have had it', 'how you got it', 'and explain why it is important to you']
+      }
+    ];
+
+    let currentIdx = -1;
+
+    const qType   = document.getElementById('q-type');
+    const qPrompt = document.getElementById('q-prompt');
+    const qCard   = document.getElementById('question-card');
+    const btnNew  = document.getElementById('btn-new');
+    const btnStart= document.getElementById('btn-start');
+    const btnReset= document.getElementById('btn-reset');
+    const display = document.getElementById('timer-display');
+    const sub     = document.getElementById('timer-sub');
+    const ring    = document.getElementById('timer-ring');
+
+    const PREP = 60, SPEAK = 120;
+    const R = 80, CIRC = 2 * Math.PI * R;
+    ring.style.strokeDasharray = CIRC;
+
+    let phase = 'prep', remaining = PREP, running = false, interval = null;
+
+    function fmt(s) {
+      return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+    }
+    function renderTimer() {
+      display.textContent = fmt(remaining);
+      var total = phase === 'prep' ? PREP : SPEAK;
+      ring.style.strokeDashoffset = CIRC * (1 - remaining / total);
+      if (remaining <= 30 && remaining > 0) {
+        ring.classList.add('warning'); ring.classList.remove('done');
+      } else if (remaining === 0) {
+        ring.classList.add('done'); ring.classList.remove('warning');
+      } else {
+        ring.classList.remove('warning','done');
+      }
+    }
+
+    function startSpeakPhase() {
+      phase = 'speak';
+      remaining = SPEAK;
+      sub.textContent = 'speaking time';
+      btnStart.textContent = '⏸ Pause';
+      ring.classList.remove('warning','done');
+      display.classList.remove('timer-timesup');
+      renderTimer();
+      interval = setInterval(function() {
+        remaining--;
+        renderTimer();
+        if (remaining <= 0) {
+          clearInterval(interval); running = false;
+          btnStart.textContent = '▶ Start';
+          display.textContent = "Time's up!";
+          display.classList.add('timer-timesup');
+        }
+      }, 1000);
+    }
+
+    function startTimer() {
+      if (running) return;
+      if (remaining === 0 && phase === 'speak') return;
+      running = true;
+      btnStart.textContent = '⏸ Pause';
+      interval = setInterval(function() {
+        remaining--;
+        renderTimer();
+        if (remaining <= 0) {
+          clearInterval(interval); running = false;
+          if (phase === 'prep') {
+            startSpeakPhase();
+          } else {
+            btnStart.textContent = '▶ Start';
+            display.textContent = "Time's up!";
+            display.classList.add('timer-timesup');
+          }
+        }
+      }, 1000);
+    }
+    function pauseTimer() { clearInterval(interval); running = false; btnStart.textContent = phase === 'prep' ? '▶ Start Prep' : '▶ Resume'; }
+    function resetTimer() {
+      pauseTimer(); phase = 'prep'; remaining = PREP;
+      sub.textContent = 'prep time';
+      btnStart.textContent = '▶ Start Prep';
+      display.classList.remove('timer-timesup');
+      ring.classList.remove('warning','done');
+      renderTimer();
+    }
+
+    btnStart.addEventListener('click', function() { running ? pauseTimer() : startTimer(); });
+    btnReset.addEventListener('click', resetTimer);
+
+    function showQuestion(c) {
+      qCard.classList.add('fading');
+      setTimeout(function() {
+        qType.textContent = 'Cue Card';
+        var html = '<p style="font-family:\'Josefin Sans\',sans-serif;font-size:1rem;font-weight:600;color:#2d2424;line-height:1.65;margin-bottom:.9rem">' + c.prompt + '</p>';
+        html += '<p style="font-family:\'Josefin Sans\',sans-serif;font-size:.82rem;font-weight:300;color:rgba(45,36,36,.6);margin-bottom:.5rem">You should say:</p>';
+        html += '<ul style="margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.4rem">';
+        c.bullets.forEach(function(b) {
+          html += '<li style="font-family:\'Josefin Sans\',sans-serif;font-size:.9rem;font-weight:300;color:rgba(45,36,36,.75);line-height:1.55">' + b + '</li>';
+        });
+        html += '</ul>';
+        qPrompt.innerHTML = html;
+        qCard.classList.remove('fading');
+      }, 200);
+    }
+
+    btnNew.addEventListener('click', function() {
+      var idx;
+      do { idx = Math.floor(Math.random() * cards.length); } while (idx === currentIdx && cards.length > 1);
+      currentIdx = idx;
+      showQuestion(cards[idx]);
+      resetTimer();
+    });
+
+    currentIdx = 0;
+    showQuestion(cards[0]);
+    renderTimer();
+  })();
+  </script>
+</body>
+</html>

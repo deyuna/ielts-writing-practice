@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Part 3 — IELTS Speaking Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="practice-nav">
+    <a href="index.html" class="back-btn">&#8592; Back</a>
+    <span class="practice-nav__title">Speaking &middot; Part 3</span>
+  </header>
+
+  <main class="practice-main">
+    <div class="practice-layout">
+
+      <div class="question-side">
+        <div>
+          <span class="question-eyebrow">IELTS Speaking Practice</span>
+          <span class="question-type-badge" id="q-type">Discussion</span>
+        </div>
+        <div class="question-card" id="question-card">
+          <div id="q-prompt"></div>
+          <hr class="question-divider" />
+          <p class="question-task-line">
+            Give extended answers with reasons and examples.<br />
+            <strong>Part 3 lasts approximately 4&ndash;5 minutes.</strong>
+          </p>
+        </div>
+        <button class="btn-new" id="btn-new">&#127922;&ensp;New Topic</button>
+      </div>
+
+      <div class="timer-side">
+        <div class="timer-container">
+          <svg class="timer-svg" viewBox="0 0 188 188">
+            <circle class="timer-track" cx="94" cy="94" r="80" />
+            <circle class="timer-ring" id="timer-ring" cx="94" cy="94" r="80" />
+          </svg>
+          <div class="timer-center">
+            <div class="timer-display" id="timer-display">05:00</div>
+            <div class="timer-sub">remaining</div>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button class="timer-btn timer-btn--start" id="btn-start">&#9654; Start</button>
+          <button class="timer-btn timer-btn--reset" id="btn-reset">&#8635; Reset</button>
+        </div>
+        <p class="timer-info">Recommended: <strong>4&ndash;5 minutes</strong><br />Give detailed, reasoned answers</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-left">Powered by <a class="footer-link" href="https://ielts.org" target="_blank" rel="noopener noreferrer">ielts.org</a></span>
+    <span class="footer-right">Made with Figma, Claude, and a cup of coffee &#9749; by <a class="footer-link" href="https://www.linkedin.com/in/deyuna-arham-rusmiland/" target="_blank" rel="noopener noreferrer">Deyuna</a></span>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    const topics = [
+      {
+        topic: 'Education',
+        questions: [
+          'How important is education in today\'s society?',
+          'Do you think the education system in your country is effective?',
+          'How has education changed in recent decades?',
+          'Should university education be free for everyone? Why or why not?'
+        ]
+      },
+      {
+        topic: 'Technology & Society',
+        questions: [
+          'How has technology changed the way people communicate?',
+          'Do you think social media has a positive or negative effect on society?',
+          'What are the benefits and drawbacks of working from home?',
+          'How might technology change the world in the next 50 years?'
+        ]
+      },
+      {
+        topic: 'Environment',
+        questions: [
+          'What are the main environmental problems facing the world today?',
+          'Who do you think is responsible for protecting the environment?',
+          'What can individuals do to help the environment?',
+          'Do you think governments do enough to tackle climate change?'
+        ]
+      },
+      {
+        topic: 'Work & Career',
+        questions: [
+          'What qualities make a good job?',
+          'Why do some people prefer job security while others prefer variety?',
+          'How important is work-life balance in today\'s world?',
+          'Do you think the nature of jobs will change significantly in the future?'
+        ]
+      },
+      {
+        topic: 'Health & Lifestyle',
+        questions: [
+          'Why is a healthy lifestyle important?',
+          'What do you think is the biggest health challenge in modern society?',
+          'Do you think governments should do more to promote healthy living?',
+          'How can people maintain good mental health in stressful lives?'
+        ]
+      },
+      {
+        topic: 'Culture & Traditions',
+        questions: [
+          'Why is it important to preserve cultural traditions?',
+          'How do traditions help define national identity?',
+          'Have traditions changed in your country in recent years?',
+          'How does globalisation affect local cultures?'
+        ]
+      },
+      {
+        topic: 'Family & Society',
+        questions: [
+          'How has the role of the family changed in modern society?',
+          'Do you think extended families are still important today?',
+          'What impact does having children have on a person\'s life?',
+          'Are family values changing in your country? How?'
+        ]
+      },
+      {
+        topic: 'Media & Communication',
+        questions: [
+          'How do people get their news today compared to in the past?',
+          'Do you think the media has too much influence on people\'s opinions?',
+          'How should the media be regulated?',
+          'What is the impact of fake news on society?'
+        ]
+      },
+      {
+        topic: 'Travel & Tourism',
+        questions: [
+          'Why do people enjoy travelling to other countries?',
+          'What are the benefits and drawbacks of mass tourism?',
+          'How has travel changed in recent decades?',
+          'Do you think people will travel differently in the future?'
+        ]
+      },
+      {
+        topic: 'Shopping & Consumerism',
+        questions: [
+          'Why has consumerism increased so much in recent decades?',
+          'What are the advantages and disadvantages of online shopping?',
+          'How do advertisers influence our buying habits?',
+          'Should people be more mindful of what they buy? Why?'
+        ]
+      },
+      {
+        topic: 'Cities & Urban Life',
+        questions: [
+          'What are the main advantages of living in a big city?',
+          'What problems do modern cities face?',
+          'How can city life be improved for residents?',
+          'Do you think more people will move to cities in the future?'
+        ]
+      },
+      {
+        topic: 'Sport & Fitness',
+        questions: [
+          'Why is sport important in modern society?',
+          'Should governments invest more in sports facilities for the public?',
+          'Do you think professional athletes are paid too much?',
+          'How can schools encourage young people to be more active?'
+        ]
+      }
+    ];
+
+    let currentIdx = -1;
+
+    const qType   = document.getElementById('q-type');
+    const qPrompt = document.getElementById('q-prompt');
+    const qCard   = document.getElementById('question-card');
+    const btnNew  = document.getElementById('btn-new');
+    const btnStart= document.getElementById('btn-start');
+    const btnReset= document.getElementById('btn-reset');
+    const display = document.getElementById('timer-display');
+    const ring    = document.getElementById('timer-ring');
+
+    const TOTAL = 5 * 60;
+    const R = 80, CIRC = 2 * Math.PI * R;
+    ring.style.strokeDasharray = CIRC;
+    ring.style.strokeDashoffset = 0;
+
+    let remaining = TOTAL, running = false, interval = null;
+
+    function fmt(s) {
+      return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+    }
+    function renderTimer() {
+      display.textContent = fmt(remaining);
+      ring.style.strokeDashoffset = CIRC * (1 - remaining / TOTAL);
+      if (remaining <= 60 && remaining > 0) {
+        ring.classList.add('warning'); ring.classList.remove('done');
+      } else if (remaining === 0) {
+        ring.classList.add('done'); ring.classList.remove('warning');
+      } else {
+        ring.classList.remove('warning','done');
+      }
+    }
+    function startTimer() {
+      if (running || remaining === 0) return;
+      running = true; btnStart.textContent = '⏸ Pause';
+      interval = setInterval(function() {
+        remaining--;
+        renderTimer();
+        if (remaining <= 0) {
+          clearInterval(interval); running = false;
+          btnStart.textContent = '▶ Start';
+          display.textContent = "Time's up!";
+          display.classList.add('timer-timesup');
+        }
+      }, 1000);
+    }
+    function pauseTimer() { clearInterval(interval); running = false; btnStart.textContent = '▶ Start'; }
+    function resetTimer() { pauseTimer(); remaining = TOTAL; display.classList.remove('timer-timesup'); renderTimer(); }
+
+    btnStart.addEventListener('click', function() { running ? pauseTimer() : startTimer(); });
+    btnReset.addEventListener('click', resetTimer);
+
+    function showQuestion(t) {
+      qCard.classList.add('fading');
+      setTimeout(function() {
+        qType.textContent = t.topic;
+        var html = '<ol style="margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:.75rem">';
+        t.questions.forEach(function(q) {
+          html += '<li style="font-family:\'Josefin Sans\',sans-serif;font-size:1rem;font-weight:400;color:#2d2424;line-height:1.65">' + q + '</li>';
+        });
+        html += '</ol>';
+        qPrompt.innerHTML = html;
+        qCard.classList.remove('fading');
+      }, 200);
+    }
+
+    btnNew.addEventListener('click', function() {
+      var idx;
+      do { idx = Math.floor(Math.random() * topics.length); } while (idx === currentIdx && topics.length > 1);
+      currentIdx = idx;
+      showQuestion(topics[idx]);
+    });
+
+    currentIdx = 0;
+    showQuestion(topics[0]);
+    renderTimer();
+  })();
+  </script>
+</body>
+</html>

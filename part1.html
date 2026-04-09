@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Part 1 — IELTS Speaking Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="practice-nav">
+    <a href="index.html" class="back-btn">&#8592; Back</a>
+    <span class="practice-nav__title">Speaking &middot; Part 1</span>
+  </header>
+
+  <main class="practice-main">
+    <div class="practice-layout">
+
+      <div class="question-side">
+        <div>
+          <span class="question-eyebrow">IELTS Speaking Practice</span>
+          <span class="question-type-badge" id="q-type">Hometown</span>
+        </div>
+        <div class="question-card" id="question-card">
+          <div id="q-prompt"></div>
+          <hr class="question-divider" />
+          <p class="question-task-line">
+            Answer each question naturally in 2&ndash;3 sentences.<br />
+            <strong>Part 1 lasts approximately 4&ndash;5 minutes.</strong>
+          </p>
+        </div>
+        <button class="btn-new" id="btn-new">&#127922;&ensp;New Topic</button>
+      </div>
+
+      <div class="timer-side">
+        <div class="timer-container">
+          <svg class="timer-svg" viewBox="0 0 188 188">
+            <circle class="timer-track" cx="94" cy="94" r="80" />
+            <circle class="timer-ring" id="timer-ring" cx="94" cy="94" r="80" />
+          </svg>
+          <div class="timer-center">
+            <div class="timer-display" id="timer-display">05:00</div>
+            <div class="timer-sub">remaining</div>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button class="timer-btn timer-btn--start" id="btn-start">&#9654; Start</button>
+          <button class="timer-btn timer-btn--reset" id="btn-reset">&#8635; Reset</button>
+        </div>
+        <p class="timer-info">Recommended: <strong>4&ndash;5 minutes</strong><br />Answer naturally &amp; briefly</p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-left">Powered by <a class="footer-link" href="https://ielts.org" target="_blank" rel="noopener noreferrer">ielts.org</a></span>
+    <span class="footer-right">Made with Figma, Claude, and a cup of coffee &#9749; by <a class="footer-link" href="https://www.linkedin.com/in/deyuna-arham-rusmiland/" target="_blank" rel="noopener noreferrer">Deyuna</a></span>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    const topics = [
+      {
+        topic: 'Hometown',
+        questions: [
+          'Where is your hometown?',
+          'Do you like your hometown? Why or why not?',
+          'What is your hometown famous for?',
+          'Is there anything you would like to change about your hometown?'
+        ]
+      },
+      {
+        topic: 'Home & Accommodation',
+        questions: [
+          'Do you live in a house or an apartment?',
+          'How long have you lived there?',
+          'What is your favourite room in your home?',
+          'Would you like to change anything about your home?'
+        ]
+      },
+      {
+        topic: 'Work & Study',
+        questions: [
+          'What do you do — do you work or are you a student?',
+          'Why did you choose your job or field of study?',
+          'Do you enjoy your work or studies?',
+          'What are your plans for the future?'
+        ]
+      },
+      {
+        topic: 'Family',
+        questions: [
+          'Can you tell me about your family?',
+          'Are you close to your family members?',
+          'How much time do you spend with your family?',
+          'Is family important in your culture?'
+        ]
+      },
+      {
+        topic: 'Hobbies & Free Time',
+        questions: [
+          'What do you like to do in your free time?',
+          'How long have you had this interest?',
+          'Do you prefer spending free time alone or with others?',
+          'Is it important to have hobbies? Why?'
+        ]
+      },
+      {
+        topic: 'Food & Cooking',
+        questions: [
+          'What is your favourite food?',
+          'Do you enjoy cooking? Why or why not?',
+          'Have your eating habits changed since you were a child?',
+          'Is food an important part of your culture?'
+        ]
+      },
+      {
+        topic: 'Music',
+        questions: [
+          'Do you enjoy listening to music?',
+          'What type of music do you like most?',
+          'Can you play any musical instruments?',
+          'Has music always been popular in your country?'
+        ]
+      },
+      {
+        topic: 'Sports & Exercise',
+        questions: [
+          'Do you like sports?',
+          'What sports do you enjoy playing or watching?',
+          'Did you do a lot of sport when you were a child?',
+          'Do you think it is important to be physically fit?'
+        ]
+      },
+      {
+        topic: 'Travel',
+        questions: [
+          'Do you enjoy travelling?',
+          'Where have you travelled to?',
+          'Where would you most like to visit in the future?',
+          'Do you prefer travelling alone or with others?'
+        ]
+      },
+      {
+        topic: 'Reading',
+        questions: [
+          'Do you like reading?',
+          'What kinds of books do you like to read?',
+          'How often do you read?',
+          'Do you think reading habits have changed in recent years?'
+        ]
+      },
+      {
+        topic: 'Technology',
+        questions: [
+          'How often do you use the internet?',
+          'What do you mainly use your smartphone for?',
+          'Do you think you spend too much time on technology?',
+          'How has technology changed your daily life?'
+        ]
+      },
+      {
+        topic: 'Shopping',
+        questions: [
+          'Do you enjoy shopping?',
+          'How often do you go shopping?',
+          'Do you prefer shopping online or in physical shops?',
+          'Has the way people shop changed in recent years?'
+        ]
+      },
+      {
+        topic: 'Weather',
+        questions: [
+          'What kind of weather do you like?',
+          'How does weather affect your mood?',
+          'What is the weather like in your hometown?',
+          'Has the weather in your country changed recently?'
+        ]
+      },
+      {
+        topic: 'Art & Museums',
+        questions: [
+          'Are you interested in art?',
+          'Do you ever visit art galleries or museums?',
+          'Did you study art at school?',
+          'Is art important in your culture?'
+        ]
+      },
+      {
+        topic: 'Films & TV',
+        questions: [
+          'Do you enjoy watching films?',
+          'What is your favourite type of film?',
+          'How often do you watch TV or streaming shows?',
+          'Do you prefer watching films at home or at the cinema?'
+        ]
+      }
+    ];
+
+    let currentIdx = -1;
+
+    const qType   = document.getElementById('q-type');
+    const qPrompt = document.getElementById('q-prompt');
+    const qCard   = document.getElementById('question-card');
+    const btnNew  = document.getElementById('btn-new');
+    const btnStart= document.getElementById('btn-start');
+    const btnReset= document.getElementById('btn-reset');
+    const display = document.getElementById('timer-display');
+    const ring    = document.getElementById('timer-ring');
+
+    const TOTAL = 5 * 60;
+    const R = 80;
+    const CIRC = 2 * Math.PI * R;
+    ring.style.strokeDasharray = CIRC;
+    ring.style.strokeDashoffset = 0;
+
+    let remaining = TOTAL, running = false, interval = null;
+
+    function fmt(s) {
+      return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+    }
+    function renderTimer() {
+      display.textContent = fmt(remaining);
+      ring.style.strokeDashoffset = CIRC * (1 - remaining / TOTAL);
+      if (remaining <= 60 && remaining > 0) {
+        ring.classList.add('warning'); ring.classList.remove('done');
+      } else if (remaining === 0) {
+        ring.classList.add('done'); ring.classList.remove('warning');
+      } else {
+        ring.classList.remove('warning','done');
+      }
+    }
+    function startTimer() {
+      if (running || remaining === 0) return;
+      running = true; btnStart.textContent = '⏸ Pause';
+      interval = setInterval(function() {
+        remaining--;
+        renderTimer();
+        if (remaining <= 0) {
+          clearInterval(interval); running = false;
+          btnStart.textContent = '▶ Start';
+          display.textContent = "Time's up!";
+          display.classList.add('timer-timesup');
+        }
+      }, 1000);
+    }
+    function pauseTimer() { clearInterval(interval); running = false; btnStart.textContent = '▶ Start'; }
+    function resetTimer() { pauseTimer(); remaining = TOTAL; display.classList.remove('timer-timesup'); renderTimer(); }
+
+    btnStart.addEventListener('click', function() { running ? pauseTimer() : startTimer(); });
+    btnReset.addEventListener('click', resetTimer);
+
+    function showQuestion(t) {
+      qCard.classList.add('fading');
+      setTimeout(function() {
+        qType.textContent = t.topic;
+        var html = '<ol style="margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:.75rem">';
+        t.questions.forEach(function(q) {
+          html += '<li style="font-family:\'Josefin Sans\',sans-serif;font-size:1rem;font-weight:400;color:#2d2424;line-height:1.65">' + q + '</li>';
+        });
+        html += '</ol>';
+        qPrompt.innerHTML = html;
+        qCard.classList.remove('fading');
+      }, 200);
+    }
+
+    btnNew.addEventListener('click', function() {
+      var idx;
+      do { idx = Math.floor(Math.random() * topics.length); } while (idx === currentIdx && topics.length > 1);
+      currentIdx = idx;
+      showQuestion(topics[idx]);
+    });
+
+    currentIdx = 0;
+    showQuestion(topics[0]);
+    renderTimer();
+  })();
+  </script>
+</body>
+</html>
