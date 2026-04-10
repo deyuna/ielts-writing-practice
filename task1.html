@@ -26,6 +26,7 @@
           <span class="question-type-badge" id="q-type">Bar Chart</span>
         </div>
         <div class="question-card" id="question-card">
+          <div class="chart-wrap" id="chart-area" style="display:none"></div>
           <p class="question-prompt" id="q-prompt">Loading&hellip;</p>
           <hr class="question-divider" />
           <p class="question-task-line">
@@ -72,11 +73,13 @@
     const questions = [
       {
         type: 'Bar Chart',
-        prompt: 'The bar chart below shows the number of men and women enrolled in further education in Britain in three different periods — 1970/71, 1980/81, and 1990/91 — and whether they were studying full-time or part-time.'
+        prompt: 'The bar chart below shows the number of men and women enrolled in further education in Britain in three different periods — 1970/71, 1980/81, and 1990/91 — and whether they were studying full-time or part-time.',
+        image: './images/img1.png'
       },
       {
         type: 'Line Graph',
-        prompt: 'The graph below shows radio and television audiences throughout the day in 1992.'
+        prompt: 'The graph below shows radio and television audiences throughout the day in 1992.',
+        image: './images/img2.png'
       },
       {
         type: 'Pie Charts',
@@ -88,7 +91,8 @@
       },
       {
         type: 'Process Diagram',
-        prompt: 'The diagram below shows the process by which bricks are manufactured for the building industry.'
+        prompt: 'The diagram below shows the process by which bricks are manufactured for the building industry.',
+        image: './images/img3.png'
       },
       {
         type: 'Line Graph',
@@ -151,6 +155,7 @@
     const qType    = document.getElementById('q-type');
     const qPrompt  = document.getElementById('q-prompt');
     const qCard    = document.getElementById('question-card');
+    const chartArea= document.getElementById('chart-area');
     const btnNew   = document.getElementById('btn-new');
     const btnStart = document.getElementById('btn-start');
     const btnReset = document.getElementById('btn-reset');
@@ -257,11 +262,22 @@
       return questions[idx];
     }
 
+    function renderChart(q) {
+      if (q.image) {
+        chartArea.style.display = '';
+        chartArea.innerHTML = '<img src="' + q.image + '" alt="' + q.type + '" style="width:100%;border-radius:8px;display:block">';
+      } else {
+        chartArea.style.display = 'none';
+        chartArea.innerHTML = '';
+      }
+    }
+
     function showQuestion(q) {
       qCard.classList.add('fading');
       setTimeout(function () {
         qType.textContent   = q.type;
         qPrompt.textContent = q.prompt;
+        renderChart(q);
         qCard.classList.remove('fading');
       }, 200);
     }
