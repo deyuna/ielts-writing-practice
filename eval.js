@@ -2,8 +2,6 @@
 (function () {
   'use strict';
 
-  var API_KEY_STORAGE = 'ielts_claude_api_key';
-
   /* ── Utilities ─────────────────────────────────────── */
   function countWords(text) {
     var trimmed = text.trim();
@@ -46,52 +44,11 @@
     return 'rgba(220,38,38,.1)';
   }
 
-  /* ── API Key ────────────────────────────────────────── */
-  function getSavedKey() {
-    try { return localStorage.getItem(API_KEY_STORAGE) || ''; } catch (e) { return ''; }
-  }
-
-  function saveKey(key) {
-    try { localStorage.setItem(API_KEY_STORAGE, key.trim()); } catch (e) {}
-  }
-
-  function initApiKey() {
-    var toggleBtn = document.getElementById('btn-api-key-toggle');
-    var panel     = document.getElementById('api-key-panel');
-    var input     = document.getElementById('api-key-input');
-    var saveBtn   = document.getElementById('btn-save-api-key');
-    if (!toggleBtn || !panel) return;
-
-    function updateToggleLabel() {
-      toggleBtn.textContent = getSavedKey() ? '⚙ API Key (saved)' : '⚙ API Key';
-    }
-    updateToggleLabel();
-
-    toggleBtn.addEventListener('click', function () {
-      var open = panel.style.display === 'block';
-      panel.style.display = open ? 'none' : 'block';
-      if (!open && input) input.value = getSavedKey();
-    });
-
-    if (saveBtn && input) {
-      saveBtn.addEventListener('click', function () {
-        var k = input.value.trim();
-        if (!k) return;
-        saveKey(k);
-        updateToggleLabel();
-        panel.style.display = 'none';
-      });
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') saveBtn.click();
-      });
-    }
-  }
-
   /* ── Word count ─────────────────────────────────────── */
   function initWordCount() {
-    var textarea   = document.getElementById('eval-textarea');
-    var countEl    = document.getElementById('eval-word-count');
-    var warningEl  = document.getElementById('eval-word-warning');
+    var textarea  = document.getElementById('eval-textarea');
+    var countEl   = document.getElementById('eval-word-count');
+    var warningEl = document.getElementById('eval-word-warning');
     if (!textarea || !countEl) return;
 
     textarea.addEventListener('input', function () {
@@ -121,9 +78,9 @@
     var taskName = taskType === 'task1'
       ? 'Task 1 (academic graph / chart / map / diagram description)'
       : 'Task 2 (academic argumentative / discussion essay)';
-    var crit1    = taskType === 'task1' ? 'Task Achievement' : 'Task Response';
-    var minW     = taskType === 'task1' ? 150 : 250;
-    var wc       = countWords(essay);
+    var crit1 = taskType === 'task1' ? 'Task Achievement' : 'Task Response';
+    var minW  = taskType === 'task1' ? 150 : 250;
+    var wc    = countWords(essay);
 
     return (
       'You are an IELTS Writing examiner. Evaluate the following IELTS Writing ' + taskName + ' response.\n\n' +
@@ -158,33 +115,27 @@
     );
   }
 
-  /* ── API call ────────────────────────────────────────── */
-  function callClaude(apiKey, prompt) {
-    return fetch('https://api.anthropic.com/v1/messages', {
+  /* ── API call (via server proxy) ────────────────────── */
+  function callEvaluate(prompt) {
+    return fetch('/api/evaluate', {
       method: 'POST',
-      headers: {
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'anthropic-dangerous-allow-any-origin': 'true'
-      },
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 2048,
-        messages: [{ role: 'user', content: prompt }]
+        model      : 'claude-haiku-4-5-20251001',
+        max_tokens : 2048,
+        messages   : [{ role: 'user', content: prompt }]
       })
     }).then(function (res) {
       if (!res.ok) {
         return res.json().catch(function () { return {}; }).then(function (e) {
           throw new Error(
-            (e.error && e.error.message) ? e.error.message : 'API error ' + res.status
+            (e.error && e.error.message) ? e.error.message : 'Server error ' + res.status
           );
         });
       }
       return res.json();
     }).then(function (data) {
-      var raw = data.content && data.content[0] && data.content[0].text || '';
-      // Strip possible ```json ... ``` wrapper
+      var raw     = data.content && data.content[0] && data.content[0].text || '';
       var cleaned = raw.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
       return JSON.parse(cleaned);
     });
@@ -197,16 +148,13 @@
 
     var bc = bandColor(data.overall_band);
     var bb = bandBg(data.overall_band);
-
-    var h = '';
+    var h  = '';
 
     /* Overall band */
     h += '<div class="er-card er-card--overall">';
     h += '<div class="er-band-num" style="color:' + bc + ';background:' + bb + '">' + data.overall_band + '</div>';
-    h += '<div>';
-    h += '<div class="er-band-label">Overall Band Score</div>';
-    h += '<span class="er-estimated">Estimated</span>';
-    h += '</div>';
+    h += '<div><div class="er-band-label">Overall Band Score</div>';
+    h += '<span class="er-estimated">Estimated</span></div>';
     h += '</div>';
 
     /* Criteria grid */
@@ -226,18 +174,15 @@
 
     /* Strengths / Weaknesses / Improvements */
     h += '<div class="er-feedback-grid">';
-    var sections = [
-      { key: 'strengths',    cls: 'green',  icon: '✓', label: 'Strengths' },
-      { key: 'weaknesses',   cls: 'red',    icon: '✗', label: 'Weaknesses' },
-      { key: 'improvements', cls: 'amber',  icon: '→', label: 'What to Improve' }
-    ];
-    sections.forEach(function (s) {
+    [
+      { key: 'strengths',    cls: 'green', icon: '✓', label: 'Strengths'      },
+      { key: 'weaknesses',   cls: 'red',   icon: '✗', label: 'Weaknesses'     },
+      { key: 'improvements', cls: 'amber', icon: '→', label: 'What to Improve' }
+    ].forEach(function (s) {
       h += '<div class="er-card er-card--' + s.cls + '">';
       h += '<div class="er-fb-title er-fb-title--' + s.cls + '">' + s.icon + '&ensp;' + s.label + '</div>';
       h += '<ul class="er-list">';
-      (data[s.key] || []).forEach(function (item) {
-        h += '<li>' + escapeHtml(item) + '</li>';
-      });
+      (data[s.key] || []).forEach(function (item) { h += '<li>' + escapeHtml(item) + '</li>'; });
       h += '</ul></div>';
     });
     h += '</div>';
@@ -259,18 +204,15 @@
     /* Band tips */
     if (data.band_tips && data.band_tips.length) {
       h += '<div class="er-section-title">Tips to Raise Your Band Score</div>';
-      h += '<div class="er-card er-card--tips">';
-      h += '<ul class="er-list er-list--tips">';
+      h += '<div class="er-card er-card--tips"><ul class="er-list er-list--tips">';
       (data.band_tips || []).forEach(function (tip) {
         h += '<li>✦&ensp;' + escapeHtml(tip) + '</li>';
       });
       h += '</ul></div>';
     }
 
-    /* Disclaimer */
+    /* Disclaimer + copy */
     h += '<div class="er-disclaimer">⚠ AI feedback is not 100% accurate and may differ from official IELTS examiners. Use this as guidance only.</div>';
-
-    /* Copy button */
     h += '<button class="er-btn-copy" id="er-btn-copy">⎘&ensp;Copy Feedback</button>';
 
     container.innerHTML = h;
@@ -286,77 +228,61 @@
     var t = 'IELTS Writing Evaluation\n\nOverall Band: ' + data.overall_band + '\n\n';
     t += 'Criteria:\n';
     (data.criteria || []).forEach(function (c) { t += '• ' + c.name + ': ' + c.band + '\n  ' + c.explanation + '\n'; });
-    t += '\nStrengths:\n' + (data.strengths || []).map(function (s) { return '• ' + s; }).join('\n');
-    t += '\n\nWeaknesses:\n' + (data.weaknesses || []).map(function (s) { return '• ' + s; }).join('\n');
+    t += '\nStrengths:\n'    + (data.strengths    || []).map(function (s) { return '• ' + s; }).join('\n');
+    t += '\n\nWeaknesses:\n' + (data.weaknesses   || []).map(function (s) { return '• ' + s; }).join('\n');
     t += '\n\nImprovements:\n' + (data.improvements || []).map(function (s) { return '• ' + s; }).join('\n');
-    t += '\n\nBand Tips:\n' + (data.band_tips || []).map(function (s) { return '• ' + s; }).join('\n');
+    t += '\n\nBand Tips:\n'  + (data.band_tips    || []).map(function (s) { return '• ' + s; }).join('\n');
 
     var btn = document.getElementById('er-btn-copy');
+    function flash() { if (btn) { btn.textContent = '✓ Copied!'; setTimeout(function () { btn.textContent = '⎘\u2005Copy Feedback'; }, 2000); } }
+
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(t).then(function () {
-        if (btn) { btn.textContent = '✓ Copied!'; setTimeout(function () { btn.textContent = '⎘  Copy Feedback'; }, 2000); }
-      }).catch(fallback);
+      navigator.clipboard.writeText(t).then(flash).catch(fallback);
     } else { fallback(); }
 
     function fallback() {
       var ta = document.createElement('textarea');
       ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); if (btn) { btn.textContent = '✓ Copied!'; setTimeout(function () { btn.textContent = '⎘  Copy Feedback'; }, 2000); } } catch (e) {}
+      try { document.execCommand('copy'); flash(); } catch (e) {}
       document.body.removeChild(ta);
     }
   }
 
   /* ── Evaluate button ────────────────────────────────── */
   function initEvaluate() {
-    var btn      = document.getElementById('btn-evaluate');
-    var textarea = document.getElementById('eval-textarea');
+    var btn       = document.getElementById('btn-evaluate');
+    var textarea  = document.getElementById('eval-textarea');
     var resultsEl = document.getElementById('eval-results');
     if (!btn) return;
 
     btn.addEventListener('click', function () {
-      var apiKey = getSavedKey();
-      if (!apiKey) {
-        var panel = document.getElementById('api-key-panel');
-        if (panel) { panel.style.display = 'block'; }
-        var inp = document.getElementById('api-key-input');
-        if (inp) inp.focus();
-        return;
-      }
-
       var essay = textarea ? textarea.value.trim() : '';
       if (!essay || countWords(essay) < 10) {
         if (textarea) textarea.focus();
         return;
       }
 
-      /* Loading */
+      /* Loading state */
       btn.disabled = true;
-      btn.textContent = 'Analyzing…';
+      btn.textContent = 'Analyzing\u2026';
       if (resultsEl) {
         resultsEl.innerHTML =
-          '<div class="er-loading"><div class="er-spinner"></div>Analyzing your writing&hellip;</div>';
+          '<div class="er-loading"><div class="er-spinner"></div>Analyzing your writing\u2026</div>';
         resultsEl.style.display = 'block';
         resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
-      var taskType = getTaskType();
-      var question = getQuestion();
-      var prompt   = buildPrompt(taskType, question, essay);
+      var prompt = buildPrompt(getTaskType(), getQuestion(), essay);
 
-      callClaude(apiKey, prompt).then(function (result) {
+      callEvaluate(prompt).then(function (result) {
         renderResults(result);
       }).catch(function (err) {
         var msg = err && err.message ? err.message : 'Unknown error';
-        if (msg.toLowerCase().indexOf('auth') !== -1 || msg.indexOf('401') !== -1) {
-          saveKey(''); /* clear bad key */
-          var toggle = document.getElementById('btn-api-key-toggle');
-          if (toggle) toggle.textContent = '⚙ API Key';
-        }
         if (resultsEl) {
           resultsEl.innerHTML =
             '<div class="er-error"><strong>Error:</strong> ' + escapeHtml(msg) +
-            '<br><small>Check your API key and try again.</small></div>';
+            '<br><small>Please try again.</small></div>';
         }
       }).finally(function () {
         btn.disabled = false;
@@ -367,7 +293,6 @@
 
   /* ── Boot ───────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
-    initApiKey();
     initWordCount();
     initEvaluate();
   });
