@@ -123,11 +123,59 @@
       },
       {
         type: 'Bar Chart',
-        prompt: 'The chart below shows the results of a survey about people\'s coffee and tea buying and drinking habits in five Australian cities.'
+        prompt: 'The chart below shows the results of a survey about people\'s coffee and tea buying and drinking habits in five Australian cities.',
+        chartConfig: {
+          type: 'bar',
+          data: {
+            labels: ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Hobart'],
+            datasets: [
+              {
+                label: 'Coffee at café',
+                data: [62, 70, 55, 51, 47],
+                backgroundColor: 'rgba(139,90,60,0.82)'
+              },
+              {
+                label: 'Coffee at home',
+                data: [44, 52, 39, 36, 31],
+                backgroundColor: 'rgba(196,152,118,0.82)'
+              },
+              {
+                label: 'Tea at café',
+                data: [22, 19, 24, 27, 31],
+                backgroundColor: 'rgba(90,145,100,0.82)'
+              },
+              {
+                label: 'Tea at home',
+                data: [68, 62, 71, 74, 77],
+                backgroundColor: 'rgba(160,205,170,0.82)'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { font: { family: 'Josefin Sans', size: 11 }, boxWidth: 12, padding: 10 }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                title: { display: true, text: '% of people surveyed', font: { family: 'Josefin Sans', size: 11 } },
+                ticks: { font: { family: 'Josefin Sans', size: 10 } }
+              },
+              x: { ticks: { font: { family: 'Josefin Sans', size: 10 } } }
+            }
+          }
+        }
       },
       {
         type: 'Table',
-        prompt: 'The table below shows the proportion of different categories of families living in poverty in Australia in 1999.'
+        prompt: 'The table below shows the proportion of different categories of families living in poverty in Australia in 1999.',
+        htmlContent: '<table class="data-table"><thead><tr><th>Family Type</th><th>% Below Poverty Line</th><th>Avg Weekly Income ($)</th></tr></thead><tbody><tr><td>Aged couple (65+)</td><td>6</td><td>621</td></tr><tr><td>Couple, no children</td><td>7</td><td>1,060</td></tr><tr><td>Couple with children</td><td>12</td><td>1,150</td></tr><tr><td>Single, no children</td><td>19</td><td>465</td></tr><tr><td>Single with children</td><td>21</td><td>534</td></tr><tr><td>Aged single (65+)</td><td>27</td><td>282</td></tr></tbody></table>'
       },
       {
         type: 'Two Maps',
