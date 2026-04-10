@@ -640,6 +640,13 @@ body {
   padding-top: 2.2rem;
 }
 
+/* Desktop: timer is first in DOM but belongs on the right.
+   Use order to restore the original left/right positions. */
+@media (min-width: 701px) {
+  .question-side { order: 1; }
+  .timer-side    { order: 2; }
+}
+
 .timer-container {
   position: relative;
   width: 188px;
