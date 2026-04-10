@@ -564,7 +564,16 @@ body {
   font-weight: 400;
   color: #2d2424;
   line-height: 1.75;
-  margin-bottom: 1.4rem;
+  margin-bottom: 4px;
+}
+
+.question-summarise {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #2d2424;
+  line-height: 1.75;
+  margin: 0;
 }
 
 .question-divider {
