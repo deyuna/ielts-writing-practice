@@ -386,11 +386,22 @@ body {
 
 /* ── Mobile ────────────────────────────────────── */
 @media (max-width: 700px) {
+  /* Footer scrolls with content — no overlap on index page */
+  .site-footer {
+    position: static;
+  }
+
+  /* Don't vertically centre — let content flow from top */
+  .mode-section {
+    align-items: flex-start;
+    min-height: unset;
+  }
+
   .mode-layout {
     flex-direction: column;
     align-items: flex-start;
     gap: 2.5rem;
-    padding: 0 1.25rem;
+    padding: 0 1.25rem 2.5rem;
   }
 
   .hero-side {
@@ -737,11 +748,24 @@ body {
 
 /* Practice page responsive */
 @media (max-width: 700px) {
+  /* Footer scrolls with content instead of floating over buttons */
+  .site-footer {
+    position: static;
+  }
+
+  /* Practice pages: start from top, not vertically centred */
+  .practice-main {
+    align-items: flex-start;
+    padding-top: 4.5rem;
+    padding-bottom: 2rem;
+  }
+
   .practice-layout {
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
   }
+
   .timer-side { padding-top: 0; }
   .practice-nav { padding: 0.85rem 1.25rem; }
 }
